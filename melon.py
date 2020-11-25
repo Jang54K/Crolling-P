@@ -24,3 +24,24 @@ for i in range(100):
     data.append([i+1, title, like, singer])
     print(str(data[i][0])+"위", data[i][1], data[i][2])
 
+
+like = []
+for i in range(100):
+    d = int(like_list[i].text.replace("\n", "").replace("좋아요", "").replace("총건수", "").replace(",", ""))
+    like.append(d)
+
+def selection_sort(list):
+    for a in range(len(list)):
+        for b in range(len(list)-1):
+            if list[b]>list[b+1]:
+                temp = list[b+1]
+                list[b+1] = list[b]
+                list[b] = temp
+            else:
+                pass
+
+selection_sort(like)
+
+print("\n앨범 좋아요수의 정리는\n")
+
+print(like)

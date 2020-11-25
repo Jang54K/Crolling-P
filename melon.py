@@ -16,32 +16,37 @@ title_list = soup.find_all("div", {"class": "ellipsis rank01"})
 singer_list = soup.find_all("span", {"class": "checkEllipsis"})
 like_list = soup.find_all("button", {"class": "button_etc like"})
 
+print("\n<일간 차트>")
 data = []
 for i in range(100):
     title = title_list[i].text.replace("\n","")
-    like = like_list[i].text.replace("\n", "").replace("좋아요", "").replace("총건수", "")
     singer = singer_list[i].text.replace("\n","")
-    data.append([i+1, title, like, singer])
-    print(str(data[i][0])+"위", data[i][1], data[i][2])
+    like = int(like_list[i].text.replace("\n", "").replace("좋아요", "").replace("총건수", "").replace(",", ""))
+    data.append([title, singer, like])
+    print(str(i+1)+"위", data[i][0], data[i][1], "(♡: "+str(data[i][2])+")")
 
 
-like = []
-for i in range(100):
-    d = int(like_list[i].text.replace("\n", "").replace("좋아요", "").replace("총건수", "").replace(",", ""))
-    like.append(d)
 
 def selection_sort(list):
-    for a in range(len(list)):
-        for b in range(len(list)-1):
-            if list[b]>list[b+1]:
-                temp = list[b+1]
-                list[b+1] = list[b]
-                list[b] = temp
+    for a in range(100):
+        for b in range(99):
+            if list[b][2]<list[b+1][2]:
+                temp = list[b+1][0]
+                list[b+1][0] = list[b][0]
+                list[b][0] = temp
+                temp = list[b + 1][1]
+                list[b+1][1] = list[b][1]
+                list[b][1] = temp
+                temp = list[b+1][2]
+                list[b+1][2] = list[b][2]
+                list[b][2] = temp
             else:
                 pass
 
-selection_sort(like)
+selection_sort(data)
 
-print("\n앨범 좋아요수의 정리는\n")
+print("\n<♡ 순위>")
+for i in range(100):
+    print(str(i+1)+"위", data[i][0], data[i][1], "(♡: "+str(data[i][2])+")")
 
-print(like)
+driver.quit()
